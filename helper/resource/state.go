@@ -216,12 +216,9 @@ func (conf *StateChangeConf) WaitForState() (interface{}, error) {
 
 		case <-timeout:
 			log.Printf("[WARN] WaitForState timeout after %s", conf.Timeout)
-			log.Printf("[WARN] WaitForState starting %s refresh grace period", refreshGracePeriod)
 
-			// cancel the goroutine and start our grace period timer
+			// cancel the goroutine
 			close(cancelCh)
-			timeout := time.After(refreshGracePeriod)
-
 			// we need a for loop and a label to break on, because we may have
 			// an extra response value to read, but still want to wait for the
 			// channel to close.
@@ -242,9 +239,6 @@ func (conf *StateChangeConf) WaitForState() (interface{}, error) {
 					// target state not reached, save the result for the
 					// TimeoutError and wait for the channel to close
 					lastResult = r
-				case <-timeout:
-					log.Println("[ERROR] WaitForState exceeded refresh grace period")
-					break forSelect
 				}
 			}
 
