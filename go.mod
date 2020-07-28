@@ -53,3 +53,5 @@ require (
 	google.golang.org/genproto v0.0.0-20200310143817-43be25429f5a // indirect
 	google.golang.org/grpc v1.27.1
 )
+
+replace github.com/hashicorp/terraform-plugin-sdk => github.com/enool/terraform-plugin-sdk v1.13.1-1-g54a63ea0
